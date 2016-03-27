@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Videos getVideos={this.props.actions.getVideos} videos={this.props.videos} />
+        <Videos getVideos={this.props.actions.getVideos} searchString={this.props.searchString} videos={this.props.videos} />
       </div>
     )
   }
