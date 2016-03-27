@@ -3,7 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import TextFilter from 'react-text-filter'
 import LazyLoad from 'react-lazyload'
 import Radium from 'radium'
-
+import VideoItem from './VideoItem'
 let divStyle = {
   color: 'black'
 };
@@ -26,13 +26,14 @@ var styles = {
   },
   inputStyle: {
     margin: '0 0 2px 0'
+  },
+  cardStyle: {
+    minHeight: '450px'
   }
-
 };
 class Videos extends Component {
   componentDidMount() {
-      this.props.getVideos()
-      console.log("getting videos");
+      this.props.actions.getVideos()
   }
   constructor(props) {
       super(props);
@@ -43,6 +44,10 @@ class Videos extends Component {
   }
   handleChange(e){
       this.setState({searchString:e.target.value});
+  }
+  handleVideoClick(id) {
+    console.log("Hello")
+    this.props.setFeaturedVideo()
   }
   render() {
     if(this.props.videos.length == 0){
@@ -61,7 +66,7 @@ class Videos extends Component {
         <div className="row">
           <div className="container">
               <div className="col s12">
-                <iframe width='100%' height='400' src={`https://www.youtube.com/embed/${this.props.videos[0].videoID}`} frameborder='0' allowFullScreen></iframe>
+                <iframe width='100%' height='400' src={`https://www.youtube.com/embed/${this.props.videos[0].videoID}`} frameBorder='0' allowFullScreen></iframe>
               </div>
           </div>
           <div className="container">
@@ -71,7 +76,7 @@ class Videos extends Component {
                 placeholder="Search all JRE podcasts..."
                 style={styles.inputStyle}
                 />
-                <label for="first_name">{videos.length} found</label>
+                <label>{videos.length} found</label>
               </div>
           </div>
         </div>
@@ -80,19 +85,7 @@ class Videos extends Component {
               {videos.map(function(result) {
                 return (
                   <LazyLoad offset={100}  key={result.position}>
-                  <li className="col m6">
-                      <div className="card">
-                        <div className="card-image">
-                        <img src={`https://i.ytimg.com/vi/${result.videoID}/hqdefault.jpg`} className="responsive-img" alt=""/>
-                        </div>
-                        <div className="card-content">
-                          <p style={styles.base}>{result.title}</p>
-                        </div>
-                        <div className="card-action right" style={styles.cardAction}>
-                          <a href="#" className="btn-large right-align" style={styles.cardLink}>Watch</a>
-                        </div>
-                      </div>
-                  </li>
+                    <VideoItem video={result} handleVideoClick={this.props.actions.setFeaturedVideo} />
                   </LazyLoad>
                 )
               })}

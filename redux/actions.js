@@ -1,6 +1,11 @@
 import axios from 'axios'
 import _ from 'lodash'
 let actions = {
+  setFeaturedVideo: function(){
+    return {
+      type: 'SET_FEATURED_VIDEO'
+    }
+  },
   displayVideos: function(videos){
     return {
       type: 'DISPLAY_VIDEOS',

@@ -10,7 +10,11 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <Videos getVideos={this.props.actions.getVideos} searchString={this.props.searchString} videos={this.props.videos} />
+        <Videos
+          searchString={this.props.searchString}
+          videos={this.props.videos}
+          actions={this.props.actions}
+          />
       </div>
     )
   }
