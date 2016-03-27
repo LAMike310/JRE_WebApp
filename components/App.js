@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import Videos from './Videos'
+import Header from './Header'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import actions from '../redux/actions'
-
 
 class App extends Component {
   render() {
     return (
       <div>
+        <Header />
         <Videos getVideos={this.props.actions.getVideos} searchString={this.props.searchString} videos={this.props.videos} />
       </div>
     )
