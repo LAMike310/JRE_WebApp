@@ -5,7 +5,9 @@ import configureStore from '../redux/store'
 import { Provider } from 'react-redux'
 
 let initialState = {
-  videos: []
+  videos: [],
+  featuredVideo: null,
+  isLoading: true
 }
 
 let store = configureStore(initialState)

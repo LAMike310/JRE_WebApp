@@ -1,9 +1,17 @@
 import axios from 'axios'
 import _ from 'lodash'
 let actions = {
-  setFeaturedVideo: function(){
+  updateLoadingState: function(loadingState){
     return {
-      type: 'SET_FEATURED_VIDEO'
+      type: 'SET_LOADING_STATE',
+      loadingState
+    }
+  },
+  setFeaturedVideo: function(video, id){
+    console.log("video", video);
+    return {
+      type: 'SET_FEATURED_VIDEO',
+      video: video.videoID + "?autoplay=" + id
     }
   },
   displayVideos: function(videos){

@@ -7,6 +7,6 @@ let finalCreateStore = compose(
   applyMiddleware(thunk, logger())
 )(createStore)
 
-export default function configureStore(initialState = { videos: [] }) {
+export default function configureStore(initialState = { videos: [], featuredVideo: null, isLoading: true }) {
   return finalCreateStore(rootReducer, initialState)
 }

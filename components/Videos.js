@@ -22,18 +22,20 @@ var styles = {
     position: 'absolute',
     bottom: '20px',
     right: '25px'
-
   },
   inputStyle: {
     margin: '0 0 2px 0'
   },
   cardStyle: {
-    minHeight: '450px'
+    minHeight: '420px'
   }
 };
 class Videos extends Component {
   componentDidMount() {
       this.props.actions.getVideos()
+  }
+  componentDidUpdate() {
+    this.getDOMNode().scrollTop = 0 ;
   }
   constructor(props) {
       super(props);
@@ -50,42 +52,45 @@ class Videos extends Component {
     this.props.setFeaturedVideo()
   }
   render() {
-    if(this.props.videos.length == 0){
+    const {actions, videos, featuredVideo, isLoading} = this.props
+    if(isLoading){
       return <p>Loading....</p>
     }
-    var videos = this.props.videos,
-      searchString = this.state.searchString.trim().toLowerCase();
-      if(searchString.length > 0){
-          videos = videos.filter(function(l){
-              return l.title.toLowerCase().match( searchString );
-          });
-      }
+    let searchString = this.state.searchString.trim().toLowerCase();
+    var filteredVideos = videos
+    if(searchString.length > 2){
+        filteredVideos = videos.filter(function(l){
+            return l.title.toLowerCase().match( searchString );
+        });
+    }
+    this.props.featuredVideo == null  ? actions.setFeaturedVideo(videos[0], "0") : ''
     return (
-      <div className="row">
-
-        <div className="row">
-          <div className="container">
+      <div>
+        <div className="container">
+          <div className="row">
               <div className="col s12">
-                <iframe width='100%' height='400' src={`https://www.youtube.com/embed/${this.props.videos[0].videoID}`} frameBorder='0' allowFullScreen></iframe>
+                <iframe width='100%' height='400' src={`https://www.youtube.com/embed/${featuredVideo}`} frameBorder='0' allowFullScreen></iframe>
               </div>
           </div>
-          <div className="container">
+        </div>
+        <div className="container">
+            <div className="row">
               <div className="col s9 offset-s2">
                 <input type="text" value={this.state.searchString}
                 onChange={this.handleChange.bind(this)}
                 placeholder="Search all JRE podcasts..."
                 style={styles.inputStyle}
                 />
-                <label>{videos.length} found</label>
+                <label>{filteredVideos.length} found</label>
               </div>
-          </div>
+            </div>
         </div>
         <div className="container">
           <ul className="row">
-              {videos.map(function(result) {
+              {filteredVideos.map(function(result) {
                 return (
                   <LazyLoad offset={100}  key={result.position}>
-                    <VideoItem video={result} handleVideoClick={this.props.actions.setFeaturedVideo} />
+                    <VideoItem video={result} setFeaturedVideo={actions.setFeaturedVideo} />
                   </LazyLoad>
                 )
               })}

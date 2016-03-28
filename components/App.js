@@ -14,6 +14,8 @@ class App extends Component {
           searchString={this.props.searchString}
           videos={this.props.videos}
           actions={this.props.actions}
+          featuredVideo={this.props.featuredVideo}
+          isLoading={this.props.isLoading}
           />
       </div>
     )
